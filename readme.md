@@ -10,6 +10,10 @@ This PMOD provides four slide switch and four touch-button inputs to FPGA design
 
 [![TSLIDE4 PMOD Schematics](images/tslide4-schema.png)](images/tslide4-schema.png)
 
+### PCB Gerber
+
+[20200301 TSLIDE4 Gerber v1.1](20200301-tslide4-gerber-v11.zip)
+
 ### Pin Assignments
 
 #### IceBreaker v1.0
