@@ -6,6 +6,8 @@
 
 This PMOD provides four slide switch and four touch-button inputs to FPGA designs via a single double-row PMOD. The four slide switches can be individually disabled through two sets of jumpers (J2 and J3, signal S1-S4). This can free up IO pins on the IceBreaker v1.0 board if only push-buttons are needed. The Icebreaker has only 24 multi-purpose IO, which creates a challenge for advanced designs. Push buttons use inverse logic, the button press creates a "LOW" signal.
 
+http://fpga.fm4dd.com/
+
 ### Schematic
 
 [![TSLIDE4 PMOD Schematics](images/tslide4-schema.png)](images/tslide4-schema.png)
