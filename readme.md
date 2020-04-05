@@ -41,18 +41,20 @@ The connection to Intels DE0-Nano-SoC is made through the pmod2nano adapter.
 
  J1# |  Label | Description   | GPIO0A | GPIO0B | GPIO1A | GPIO1B
 -----|--------|---------------|--------|--------|--------|--------
-1    |  SW1   | Slide Switch1 | PIN_W12| PIN_AF4|PIN_AA15| PIN_AH23
-2    |  SW2   | Slide Switch2 | PIN_Y8 | PIN_AF5|PIN_AG26| PIN_AE19
-3    |  SW3   | Slide Switch3 | PIN_W8 | PIN_T13|PIN_AF23| PIN_AD19
-4    |  SW4   | Slide Switch4 | PIN_Y5 | PIN_AE7|PIN_AF21| PIN_AE24
-7    |  PB5   | Push Button1  | PIN_AF8| PIN_AG6|PIN_AH27| PIN_AG23
-8    |  PB6   | Push Button2  | PIN_AB4| PIN_AE4|PIN_AH24| PIN_AF18
-9    |  PB7   | Push Button3  | PIN_Y4 | PIN_T11|PIN_AE22| PIN_AE20
-10   |  PB8   | Push Button4  | PIN_U11| PIN_AF6|PIN_AG20| PIN_AD20
+1    |  PB1   | Push Button1  | PIN_W12| PIN_AF4|PIN_AA15| PIN_AH23
+2    |  PB2   | Push Button2  | PIN_Y8 | PIN_AF5|PIN_AG26| PIN_AE19
+3    |  PB3   | Push Button3  | PIN_W8 | PIN_T13|PIN_AF23| PIN_AD19
+4    |  PB4   | Push Button4  | PIN_Y5 | PIN_AE7|PIN_AF21| PIN_AE24
+7    |  SW1   | Slide Switch1 | PIN_AF8| PIN_AG6|PIN_AH27| PIN_AG23
+8    |  SW2   | Slide Switch2 | PIN_AB4| PIN_AE4|PIN_AH24| PIN_AF18
+9    |  SW3   | Slide Switch3 | PIN_Y4 | PIN_T11|PIN_AE22| PIN_AE20
+10   |  SW4   | Slide Switch4 | PIN_U11| PIN_AF6|PIN_AG20| PIN_AD20
 
 ### Example Code
 
 #### Verilog
+
+<img src="images/tslide4-icebreaker.jpg" width="480px">
 
 Below is a test program to verify the correct function of the TSLIDE4 PMOD.
 The programm assumes an additional 8LED2 PMOD connected to show LED output.
@@ -76,33 +78,62 @@ module pmod_tslide4_1 (
   input PB2,
   input PB3,
   input PB4,
-  output [0:7] pmodledg,
-  output [0:7] pmodledr
+  output reg [0:7] pmodledg,
+  output reg [0:7] pmodledr
 );
-reg [0:3] SW;
-reg [0:3] PB;
-assign pmodledg[0] = SW[0];
-assign pmodledg[1] = SW[1];
-assign pmodledg[2] = SW[2];
-assign pmodledg[3] = SW[3];
-assign pmodledr[7] = PB[0];
-assign pmodledr[6] = PB[1];
-assign pmodledr[5] = PB[2];
-assign pmodledr[4] = PB[3];
 
 always
 begin
-  // led = 1'b1;  // light up D1
-  SW[0] = SW1;
-  SW[1] = SW2;
-  SW[2] = SW3;
-  SW[3] = SW4;
-  PB[0] = PB1;
-  PB[1] = PB2;
-  PB[2] = PB3;
-  PB[3] = PB4;
+  // pmodledg[0] = 1'b1;  // light up D1
+  pmodledg[0] = SW1;
+  pmodledg[1] = SW2;
+  pmodledg[2] = SW3;
+  pmodledg[3] = SW4;
+  pmodledr[7] = ~PB1;
+  pmodledr[6] = ~PB2;
+  pmodledr[5] = ~PB3;
+  pmodledr[4] = ~PB4;
 end
 endmodule
 ```
+#### VHDL
 
-<img src="images/tslide4-icebreaker.jpg" width="480px">
+This is Verilog test program pmod_tslide4_1.v converted to VHDL as pmod_tslide4_2.vhd
+
+```
+-- -------------------------------------------------------
+-- This program tests HW pin assignment for TSlide4 pmods
+-- -------------------------------------------------------
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+entity pmod_tslide4_2 is
+port ( SW1: in STD_LOGIC := '1';
+       SW2: in STD_LOGIC := '1';
+       SW3: in STD_LOGIC := '1';
+       SW4: in STD_LOGIC := '1';
+       PB1: in STD_LOGIC := '1';
+       PB2: in STD_LOGIC := '1';
+       PB3: in STD_LOGIC := '1';
+       PB4: in STD_LOGIC := '1';
+  pmodledg: out STD_LOGIC_VECTOR(0 to 7) := "00000000";
+  pmodledr: out STD_LOGIC_VECTOR(0 to 7) := "00000000"
+);
+end pmod_tslide4_2;
+
+architecture arch of pmod_tslide4_2 is
+begin
+  -- pmodledg(0) <= '1';  // light up D1
+  pmodledg(0) <= SW1;
+  pmodledg(1) <= SW2;
+  pmodledg(2) <= SW3;
+  pmodledg(3) <= SW4;
+
+  pmodledr(4) <= NOT PB1;
+  pmodledr(5) <= NOT PB2;
+  pmodledr(6) <= NOT PB3;
+  pmodledr(7) <= NOT PB4;
+end arch;
+```
+<img src="images/de0-nano-soc-tslide4.jpg" width="480px">
