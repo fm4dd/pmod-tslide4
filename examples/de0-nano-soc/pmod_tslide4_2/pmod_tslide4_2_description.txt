@@ -1,0 +1,8 @@
+This program is demonstrating the function of the TSlide4 PMOD under VHDL.  It assumes a TSlide4 PMOD connected to IceBreaker PMOD2 connector, and a 8LED2 PMOD connected to PMOD1A and PMOD1B connectors. The design links the four slide switches with LED D1-D4 in green color,
+and the four push button switches with LED D5-D8 in red color. Operating the switches simply turns the corresponding LED on or off.
+
+The functionality has been converted from the Verilog program pmod_tslide4_1.v, tested on a Icebreaker v1.0 board, using the Linux open source workflow (yosys, nextpnr, and icestorm). Without an open source VHDL workflow, I am testing VHDL on a DE0-Nano-SoC board with Quartus Prime Version 17.1 Lite Edition on Windows.
+
+
+
+
